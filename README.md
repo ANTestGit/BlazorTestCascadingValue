@@ -24,7 +24,36 @@ This simple code produced cascading value refresh twice!!!! NET 6.0 but it is th
     }
 }
 ```
+TestComponet (code behind only)
+``` CS
+@code {
+    [CascadingParameter]
+    private WeatherForecast[]? Forecasts { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("OnInitializedAsync");
+        await base.OnInitializedAsync();
+    }
 
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        var objects = parameters.ToDictionary();
+        string parDescription = String.Join(", ",objects);
+        Console.WriteLine($"set:{parDescription}");
+        await base.SetParametersAsync(parameters);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine("OnParametersSetAsync enter");
+        await base.OnParametersSetAsync();
+        // simulate some work
+        await Task.Delay(250);
+        Console.WriteLine("OnParametersSetAsync exit");
+    }
+}
+```
 ---Pressed button Refresh---  
 set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
 OnParametersSetAsync enter  
