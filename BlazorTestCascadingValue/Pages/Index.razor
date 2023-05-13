@@ -1,0 +1,80 @@
+﻿@page "/"
+@using BlazorTestCascadingValue.Component
+@using BlazorTestCascadingValue.Data
+@inject WeatherForecastService ForecastService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new test app.
+<h3>Look at the Visual Studio console window to see debug output. Not inside VS app</h3>
+
+<button @onclick="OnRefresh">Refresh</button><br/>
+@*<CascadingValue Value="@_forecasts" IsFixed="false">
+    <TestComponent Test1="@testVar1" Test2="@testVar2"></TestComponent>
+</CascadingValue>*@
+
+<CascadingValue Value="@_forecasts" IsFixed="false">
+    <TestComponent></TestComponent>
+</CascadingValue>
+@code {
+    private WeatherForecast[]? _forecasts;
+    private string? testVar1;
+    private string? testVar2;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("---Main component loading shared data---");
+        _forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        //await Task.Delay(100);
+        ////testVar1 = "Test";
+        ////testVar2 = "Test";
+        ////await Task.Delay(100);
+        ////testVar2 = "Test2";
+    }
+
+    private async Task OnRefresh()
+    {
+        Console.WriteLine("---Pressed button Refresh---");
+        await Task.Delay(200);
+    //var weatherForecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    //_forecasts = weatherForecasts;
+    }
+
+ /*
+---Main component loading shared data---IsFixed="true"
+set:[Test1, ], [Test2, ], [Forecasts, ]
+OnInitializedAsync
+OnParametersSetAsync enter
+OnAfterRenderAsync:First render
+OnParametersSetAsync exit
+set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+OnParametersSetAsync exit
+
+---Main component loading shared data---IsFixed="false"
+set:[Test1, ], [Test2, ], [Forecasts, ]
+OnInitializedAsync
+OnParametersSetAsync enter
+OnAfterRenderAsync:First render
+OnParametersSetAsync exit
+set:[Test1, ], [Test2, ], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+OnParametersSetAsync exit
+OnParametersSetAsync exit
+---Pressed button Refresh---
+set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+OnParametersSetAsync exit
+set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+OnParametersSetAsync exit
+
+    */
+
+    
+
+}
