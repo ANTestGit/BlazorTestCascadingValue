@@ -26,9 +26,9 @@ This simple code produced cascading value refresh twice!!!! NET 6.0 but it is th
 ```
 
 ---Pressed button Refresh---  
-set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
+set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
+OnParametersSetAsync enter  
+set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
 OnParametersSetAsync enter  
 OnParametersSetAsync exit  
-set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
-OnParametersSetAsync enter  
-OnParametersSetAsync exit
+OnParametersSetAsync exit  
