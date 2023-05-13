@@ -61,3 +61,6 @@ set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
 OnParametersSetAsync enter  
 OnParametersSetAsync exit  
 OnParametersSetAsync exit  
+
+# Resolving
+[Try to open the bug ticket](https://github.com/dotnet/aspnetcore/issues/48223)
