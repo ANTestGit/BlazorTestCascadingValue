@@ -10,8 +10,4 @@
     <None Remove="README.md" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\README.md" Link="README.md" />
-  </ItemGroup>
-
 </Project>
