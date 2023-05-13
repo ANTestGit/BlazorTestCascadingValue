@@ -1,7 +1,7 @@
 # BlazorTestCascadingValue
 Test for cascading value refresh
 
-This simple code produced cascadin value refresh twice!!!!
+This simple code produced cascading value refresh twice!!!!
 ```CS
 <button @onclick="OnRefresh">Refresh</button><br/>
 
