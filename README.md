@@ -1,7 +1,7 @@
 # BlazorTestCascadingValue
 Test for cascading value refresh
 
-This simple code produced cascading value refresh twice!!!!
+This simple code produced cascading value refresh twice!!!! NET 6.0 but it is the for NET7.0
 ```CS
 <button @onclick="OnRefresh">Refresh</button><br/>
 
@@ -25,7 +25,7 @@ This simple code produced cascading value refresh twice!!!!
 }
 ```
 
----Pressed button Refresh---
+---Pressed button Refresh---  
 set:[Test1, Test], [Test2, Test2], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]  
 OnParametersSetAsync enter  
 OnParametersSetAsync exit  
