@@ -33,6 +33,28 @@ Welcome to your new test app.
         ////await Task.Delay(100);
         ////testVar2 = "Test2";
     }
+    
+    protected override bool ShouldRender()
+    {
+        Console.WriteLine("ShouldRender Owner");
+        return base.ShouldRender();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine("OnAfterRenderAsync Owner: enter");
+
+        await base.OnAfterRenderAsync(firstRender);
+        await Task.Delay(50);
+        if (firstRender)
+        {
+            Console.WriteLine("OnAfterRenderAsync Owner:First render");
+        }
+        else
+        {
+            Console.WriteLine("OnAfterRenderAsync Owner: next render");
+        }
+    }
 
     private async Task OnRefresh()
     {

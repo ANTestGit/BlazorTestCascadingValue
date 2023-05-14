@@ -68,13 +68,25 @@ else
         Console.WriteLine("OnParametersSetAsync exit");
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+   
+    protected override bool ShouldRender()
     {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            Console.WriteLine("OnAfterRenderAsync:First render");
-        }
+        Console.WriteLine("ShouldRender child");
+        return base.ShouldRender();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine("OnAfterRenderAsync child:enter");
+        await base.OnAfterRenderAsync(firstRender);
+        await Task.Delay(50);
+        if (firstRender)
+        {
+            Console.WriteLine("OnAfterRenderAsync child:First render");
+        }
+        else
+        {
+            Console.WriteLine("OnAfterRenderAsync child: next render");
+        }
+    }
 }
