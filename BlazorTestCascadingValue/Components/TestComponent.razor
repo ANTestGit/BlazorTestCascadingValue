@@ -34,7 +34,7 @@ else
 
 
 @code {
-    [CascadingParameter]
+    //[CascadingParameter]
     private WeatherForecast[]? Forecasts { get; set; }
 
     [Parameter]
@@ -54,6 +54,8 @@ else
     private void DataLoaderServiceOnOnDataChanged(object? sender, WeatherForecast[] e)
     {
         Console.WriteLine("Data loaded");
+        Forecasts = e;
+        StateHasChanged();
     }
 
     public override async Task SetParametersAsync(ParameterView parameters)
