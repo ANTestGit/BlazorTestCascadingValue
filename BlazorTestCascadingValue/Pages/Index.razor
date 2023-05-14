@@ -1,7 +1,9 @@
 ﻿@page "/"
-@using BlazorTestCascadingValue.Component
+@using BlazorTestCascadingValue.Components
 @using BlazorTestCascadingValue.Data
-@inject WeatherForecastService ForecastService
+@using BlazorTestCascadingValue.Services
+
+@inject DataLoaderService DataLoaderService
 
 <PageTitle>Index</PageTitle>
 
@@ -26,7 +28,8 @@ Welcome to your new test app.
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("---Main component loading shared data---");
-        _forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        _forecasts = await DataLoaderService.LoadDataAsync();
+        //_forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
         //await Task.Delay(100);
         ////testVar1 = "Test";
         ////testVar2 = "Test";
@@ -59,7 +62,8 @@ Welcome to your new test app.
     private async Task OnRefresh()
     {
         Console.WriteLine("---Pressed button Refresh---");
-        await Task.Delay(200);
+        await DataLoaderService.LoadDataAsync();
+        //await Task.Delay(200);
     //var weatherForecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     //_forecasts = weatherForecasts;
     }

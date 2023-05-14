@@ -1,4 +1,5 @@
 using BlazorTestCascadingValue.Data;
+using BlazorTestCascadingValue.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -19,6 +20,7 @@ namespace BlazorTestCascadingValue
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddScoped<DataLoaderService>();
 
             var app = builder.Build();
 
