@@ -1,0 +1,108 @@
+﻿@using BlazorTestCascadingValue.Data
+@using BlazorTestCascadingValue.Services
+@implements IDisposable
+@inject DataLoaderService DataLoaderService
+
+@if (Forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var forecast in Forecasts)
+        {
+            <tr>
+                <td>@forecast.Date.ToShortDateString()</td>
+                <td>@forecast.TemperatureC</td>
+                <td>@forecast.TemperatureF</td>
+                <td>@forecast.Summary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    [CascadingParameter]
+    private WeatherForecast[]? Forecasts { get; set; }
+
+    [Parameter]
+    public string? Test1 { get; set; }
+
+    [Parameter]
+    public string? Test2 { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("OnInitializedAsync");
+        DataLoaderService.OnDataChanged += DataLoaderServiceOnOnDataChanged;
+        await base.OnInitializedAsync();
+    }
+
+    private void DataLoaderServiceOnOnDataChanged(object? sender, WeatherForecast[] e)
+    {
+        Console.WriteLine("Data loaded");
+    }
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        var objects = parameters.ToDictionary();
+        string parDescription = String.Join(", ",objects);
+        Console.WriteLine($"set:{parDescription}");
+        await base.SetParametersAsync(parameters);
+    }
+
+    /// <summary>
+    /// Method invoked when the component has received parameters from its parent in
+    /// the render tree, and the incoming values have been assigned to properties.
+    /// </summary>
+    /// <returns>A <see cref="T:System.Threading.Tasks.Task" /> representing any asynchronous operation.</returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine("OnParametersSetAsync enter");
+        await base.OnParametersSetAsync();
+        // simulate some work
+        await Task.Delay(250);
+        Console.WriteLine("OnParametersSetAsync exit");
+    }
+
+
+    protected override bool ShouldRender()
+    {
+        Console.WriteLine("ShouldRender child");
+        return base.ShouldRender();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine("OnAfterRenderAsync child:enter");
+        await base.OnAfterRenderAsync(firstRender);
+        await Task.Delay(50);
+        if (firstRender)
+        {
+            Console.WriteLine("OnAfterRenderAsync child:First render");
+        }
+        else
+        {
+            Console.WriteLine("OnAfterRenderAsync child: next render");
+        }
+    }
+
+    public void Dispose()
+    {
+        DataLoaderService.OnDataChanged -= DataLoaderServiceOnOnDataChanged;
+    }
+
+}
