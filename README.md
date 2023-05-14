@@ -64,3 +64,102 @@ OnParametersSetAsync exit
 
 # Resolving
 [Try to open the bug ticket](https://github.com/dotnet/aspnetcore/issues/48223)
+
+# Notes
+From ticket discussion there are some additional information.
+
+We need to pay attention to [the component lifecycle](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle?view=aspnetcore-7.0)
+
+So I added new logs about components rendering.
+I created new branch NonUpdatableCasdingValue where you can the difference with 'non updated' CascadingParameters
+
+```
+***App init***
+***Main Layout init***
+---Main component loading shared data---
+set:[Test1, ], [Forecasts, ]
+OnInitializedAsync
+OnParametersSetAsync enter
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync Owner:First render
+OnAfterRenderAsync child:First render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+ShouldRender Owner
+set:[Test1, Test], [Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+ShouldRender child
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+OnAfterRenderAsync Owner: next render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+---Pressed button Refresh---
+ShouldRender Owner
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync Owner: next render
+ShouldRender Owner
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync Owner: next render
+```
+Here is new logs from master branch
+
+```
+***App init***
+***Main Layout init***
+---Main component loading shared data---
+set:[Forecasts, ]
+OnInitializedAsync
+OnParametersSetAsync enter
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child:First render
+OnAfterRenderAsync Owner:First render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+ShouldRender Owner
+set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+ShouldRender child
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+OnAfterRenderAsync Owner: next render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+---Pressed button Refresh---
+ShouldRender Owner
+set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+ShouldRender child
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync Owner: next render
+OnAfterRenderAsync child: next render
+ShouldRender Owner
+set:[Forecasts, BlazorTestCascadingValue.Data.WeatherForecast[]]
+OnParametersSetAsync enter
+ShouldRender child
+OnAfterRenderAsync Owner: enter
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+OnAfterRenderAsync Owner: next render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+OnParametersSetAsync exit
+ShouldRender child
+OnAfterRenderAsync child:enter
+OnAfterRenderAsync child: next render
+```
