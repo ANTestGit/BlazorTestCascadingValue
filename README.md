@@ -1,4 +1,7 @@
-# BlazorTestCascadingValue
+# Be afraid of CascadingValue
+
+## Introduction
+
 Test for cascading value refresh
 
 This simple code produced cascading value refresh twice!!!! NET 6.0 but it is the for NET7.0
@@ -62,8 +65,12 @@ OnParametersSetAsync enter
 OnParametersSetAsync exit  
 OnParametersSetAsync exit  
 
-# Resolving
-[Try to open the bug ticket](https://github.com/dotnet/aspnetcore/issues/48223)
+## Try to resolve
+Firstly I thinking this is a [bug](https://github.com/dotnet/aspnetcore/issues/48223)
+but in reality this behavior is by design.
+(SetParametersAsync)[https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.componentbase.setparametersasync?view=aspnetcore-7.0]
+will be called independent of parameters changing.
+
 
 # Notes
 From ticket discussion there are some additional information.
